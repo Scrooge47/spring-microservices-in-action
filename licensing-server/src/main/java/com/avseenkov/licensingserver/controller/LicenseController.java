@@ -18,9 +18,9 @@ public class LicenseController {
 
     private LicenseService licenseService;
 
-    @RequestMapping(value="/{licenseId}",method = RequestMethod.GET)
-    public ResponseEntity<License> getLicense( @PathVariable("organizationId") String organizationId,
-                                               @PathVariable("licenseId") String licenseId) {
+    @RequestMapping(value = "/{licenseId}", method = RequestMethod.GET)
+    public ResponseEntity<License> getLicense(@PathVariable("organizationId") String organizationId,
+                                              @PathVariable("licenseId") String licenseId) {
 
         License license = licenseService.getLicense(licenseId, organizationId);
         license.add(
@@ -43,8 +43,15 @@ public class LicenseController {
         return ResponseEntity.ok(licenseService.createLicense(request));
     }
 
-    @DeleteMapping(value="/{licenseId}")
+    @DeleteMapping(value = "/{licenseId}")
     public ResponseEntity<String> deleteLicense(@PathVariable("licenseId") String licenseId) {
         return ResponseEntity.ok(licenseService.deleteLicense(licenseId));
+    }
+
+    @RequestMapping(value = "/{licenseId}/{clientType}", method = RequestMethod.GET)
+    public License getLicensesWithClient(
+            @PathVariable("organizationId") String organizationId, @PathVariable("licenseId") String licenseId,
+            @PathVariable("clientType") String clientType) {
+        return licenseService.getLicense(organizationId, licenseId, clientType);
     }
 }
